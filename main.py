@@ -34,6 +34,7 @@ def solvePuzzle(puzzle):
     sudoku = Sudoku(3)
     sudoku.importPuzzle(puzzle)
     if sudoku.solve():
+        print('Solution')
         sudoku.printResult()
     else:
         print('failed')
