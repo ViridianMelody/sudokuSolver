@@ -46,7 +46,6 @@ class Sudoku:
             if not currentCell.isLocked():
                 backtracking = False
                 nextNum = currentCell.findNext(self.size)
-                #print(f'{row},{col},{nextNum}')
                 if nextNum:
                     currentCell.setNum(nextNum)
                     i += 1
