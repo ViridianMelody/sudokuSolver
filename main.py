@@ -1,43 +1,34 @@
 #!/usr/bin/env python3
+from tkinter.filedialog import askopenfile, asksaveasfile
+from os import getcwd
 from sudoku import Sudoku
 
 
 
 def main():
-    easyPuzzle = [
-        0,0,5,3,6,0,4,0,0,
-        9,6,2,0,0,4,0,7,0,
-        3,0,4,0,2,9,0,6,0,
-        8,2,0,9,4,0,0,1,3,
-        0,4,9,0,3,0,0,5,7,
-        0,0,0,2,0,0,9,8,0,
-        4,0,6,0,0,1,0,0,2,
-        0,0,0,6,9,3,0,0,5,
-        0,0,3,0,8,0,0,0,0
-    ]
-    hardPuzzle = [
-        0,0,7,0,0,0,0,0,3,
-        0,0,9,0,6,0,0,0,0,
-        3,6,0,0,0,8,2,0,0,
-        0,0,6,0,0,0,0,0,0,
-        5,1,0,0,8,0,0,0,9,
-        0,0,0,0,0,2,0,4,0,
-        0,0,0,5,0,0,9,0,0,
-        8,3,0,0,1,0,0,0,5,
-        7,0,0,0,0,0,0,0,0
-    ]
+    '''Driver for Sudoku solver'''
+    cwd = getcwd()
+    inputFile = askopenfile(mode='r', initialdir=cwd, title='Open Sudoku file')
+    puzzle = parseSudokuInput(inputFile)
+    sudoku = Sudoku(puzzle = puzzle)
+    output = 'Imported puzzle:\n'
+    output += str(sudoku)
+    sudoku.solve()
+    output += 'Solved puzzle:\n'
+    output += str(sudoku)
+    outputFile = asksaveasfile(mode='w+', initialdir=cwd, title='Save solution as')
+    outputFile.write(output)
     
-    solvePuzzle(easyPuzzle)
-    solvePuzzle(hardPuzzle)
+     
 
-def solvePuzzle(puzzle):
-    sudoku = Sudoku(3)
-    sudoku.importPuzzle(puzzle)
-    if sudoku.solve():
-        print('Solution')
-        sudoku.printResult()
-    else:
-        print('failed')
+def parseSudokuInput(inputFile):
+    result = []
+    line = inputFile.readline().strip()
+    while line:
+        for char in line.split(','):
+            result.append(int(char))
+        line = inputFile.readline()
+    return result
 
 
 
